@@ -104,4 +104,5 @@ func (p *HTTPPool) PickPeer(key string) (PeerGetter, bool) {
 	return nil, false
 }
 
+//将nil转为*httpGetter类型，再转为PeerGetter接口，如果失败，说明*httpGetter没有实现PeerGetter接口的所有方法
 var _ PeerGetter = (*httpGetter)(nil)
