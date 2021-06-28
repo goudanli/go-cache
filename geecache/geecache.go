@@ -25,11 +25,12 @@ type Getter interface {
 
 type GetterFunc func(key string) ([]byte, error)
 
-//实现 Getter方法
+//实现 Getter方法的函数，称为接口型函数
 func (f GetterFunc) Get(key string) ([]byte, error) {
 	return f(key)
 }
 
+//这里使用Getter更加灵活，既可以传接口型函数也可以传接口型结构体
 func NewGroup(name string, cacheBytes int64, getter Getter) *Group {
 	if getter == nil {
 		panic("nil Getter")
@@ -72,7 +73,6 @@ func (g *Group) getLocally(key string) (ByteView, error) {
 		return ByteView{}, err
 	}
 	v := ByteView{b: cloneByte(bytes)}
-	//todo 放入缓存
 	g.populateCache(key, v)
 	return v, nil
 }
